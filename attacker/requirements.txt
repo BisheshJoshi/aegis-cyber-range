@@ -1,0 +1,4 @@
+# AEGIS attacker dependencies (£0 stack)
+groq>=0.11.0          # Groq free-tier LLM client (the attacker "brain")
+requests>=2.31.0      # HTTP calls to the lab target
+python-dotenv>=1.0.0  # load GROQ_API_KEY / target from .env

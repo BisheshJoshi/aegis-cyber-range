@@ -1,0 +1,36 @@
+# AEGIS — sandbox lab target
+#
+# Stands up OWASP Juice Shop, an intentionally-vulnerable web application, as the
+# Level-1 core target for the AEGIS cyber-range.
+#
+# ⚖️  This is the ONLY system AEGIS is authorised to attack. It is bound to
+#     localhost so it is not exposed on your network. Do NOT expose it publicly
+#     and do NOT point AEGIS tooling at anything else (UK Computer Misuse Act 1990).
+#
+# Usage:
+#   docker compose up -d      # start → http://localhost:3000
+#   docker compose ps         # status
+#   docker compose logs -f    # follow logs
+#   docker compose down       # stop & remove
+#
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:latest   # OWASP Juice Shop (pinned tag recommended for a dissertation)
+    container_name: aegis-juice-shop
+    # Bind to loopback only (host:container). Change the LEFT number to remap the host port.
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment:
+      - NODE_ENV=unsafe        # enables the full set of challenges for teaching
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/rest/admin/application-version"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    networks:
+      - aegis-lab
+
+networks:
+  aegis-lab:
+    driver: bridge

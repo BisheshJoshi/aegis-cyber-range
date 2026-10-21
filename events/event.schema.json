@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aegis.local/events/event.schema.json",
+  "title": "AEGIS Event",
+  "description": "A single event in the AEGIS cyber-range event log (one JSON object per line, JSON Lines).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "match_id",
+    "ts",
+    "actor",
+    "phase",
+    "action",
+    "target",
+    "outcome",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "examples": ["1.0"] },
+    "event_id": { "type": "string", "description": "Unique id (UUID recommended)." },
+    "match_id": { "type": "string", "description": "Groups all events of one run." },
+    "ts": { "type": "string", "format": "date-time", "description": "UTC ISO-8601 with trailing Z." },
+    "actor": { "type": "string", "enum": ["attacker", "defender", "system"] },
+    "phase": {
+      "type": "string",
+      "enum": ["recon", "sqli", "xss", "detect", "block", "patch", "verify", "info"]
+    },
+    "action": { "type": "string", "description": "Short machine name of the event." },
+    "target": {
+      "type": "string",
+      "description": "Target URL/endpoint. Must be the lab (loopback)."
+    },
+    "outcome": {
+      "type": "string",
+      "enum": ["success", "failure", "blocked", "detected", "patched", "verified", "info"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["info", "low", "medium", "high", "critical"]
+    },
+    "summary": { "type": "string", "description": "Human-readable one-liner for the game UI." },
+    "detail": { "type": "object", "description": "Free-form phase-specific structured data." },
+    "refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "event_ids this event responds to."
+    }
+  }
+}

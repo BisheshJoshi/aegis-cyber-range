@@ -1,0 +1,4 @@
+# AEGIS defender dependencies (£0 stack)
+scikit-learn>=1.3.0   # ML models for anomaly/attack detection
+numpy>=1.24.0         # numerics
+pandas>=2.0.0         # event-log wrangling / feature prep
